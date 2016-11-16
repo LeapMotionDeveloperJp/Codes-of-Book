@@ -25,9 +25,9 @@
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
     "babel-register": "^6.18.0",
-    "chai": "~3.0.0",
-    "eslint": "~0.24.0",
-    "mocha": "~2.2.5"
+    "chai": "^3.5.0",
+    "eslint": "^3.10.1",
+    "mocha": "^3.1.2"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
@@ -39,6 +39,6 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register",
     "build": "babel src -d lib",
-    "lint": "eslint src/*.js"
+    "lint": "eslint src/*.es6"
   }
 }
