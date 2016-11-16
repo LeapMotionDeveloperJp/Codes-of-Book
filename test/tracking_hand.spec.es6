@@ -2,6 +2,7 @@
 
 let chai = require("chai"),
   path = require("path"),
+  sinon = require("sinon"),
   TrackingHand = require(path.join(__dirname, "../src", "tracking_hand"));
 var expect = chai.expect;
 
@@ -9,18 +10,24 @@ var expect = chai.expect;
 describe("Tracking Hand", () => {
   describe("#Start", () => {
     var trackingHand;
+    const device = {};
     beforeEach(() => {
+      device.leapmotion = {};
+      device.leapmotion.on = function() {};
       trackingHand = new TrackingHand();
     });
 
-    /** @test {TrackingHand#isStart} */
-    it("return status", () => {
+    /** @test {TrackingHand#constructor()} */
+    it("return before status", () => {
       expect(trackingHand.isStart).to.equal(false);
     });
 
-    // it("can be changed", () => {
-    //   trackingHand.start();
-    //   expect(trackingHand.isStart).to.equal(true);
-    // });
+    /** @test {TrackingHand#start()} */
+    it("can be changed", () => {
+      var spy = sinon.spy(trackingHand, "start");
+      trackingHand.start(device.leapmotion);
+      expect(spy.withArgs(device.leapmotion).calledOnce).to.equal(true);
+      expect(trackingHand.isStart).to.equal(true);
+    });
   });
 });

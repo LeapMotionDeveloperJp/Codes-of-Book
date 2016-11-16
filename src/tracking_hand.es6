@@ -12,22 +12,21 @@ class TrackingHand {
 
   /**
    * constructor
-   * @param {Object} [device] object containing device information for the Robot
    */
-  constructor(device) {
-    this.device = device;
+  constructor() {
     this.isStart = false;
   }
-
   /**
    * start()
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  start() {
+  start(device) {
     this.isStart = true;
-    this.device.leapmotion.on("hand", function(hand) {
+    device.on("hand", function(hand) {
       console.log(hand);
     });
   }
 }
+
 module.exports = TrackingHand;

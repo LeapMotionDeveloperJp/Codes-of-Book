@@ -28,7 +28,8 @@
     "chai": "^3.5.0",
     "esdoc": "^0.4.8",
     "eslint": "^3.10.1",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "sinon": "^1.17.6"
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
