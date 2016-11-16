@@ -1,0 +1,39 @@
+{
+  "name": "leap_motion_book_codes",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://www.facebook.com/groups/leapmotionJp/",
+  "main": "index.js",
+  "author": "LeapMotion Developers Jp",
+  "license": "MIT",
+  "keywords": [
+    "robot",
+    "robots",
+    "robotics",
+    "iot",
+    "hardware",
+    "leap",
+    "leap motion",
+    "leapmotion"
+  ],
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-register": "^6.18.0",
+    "chai": "~3.0.0",
+    "eslint": "~0.24.0",
+    "mocha": "~2.2.5"
+  },
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-es2015": "^6.18.0",
+    "cylon": "^1.3.0",
+    "cylon-leapmotion": "^0.21.0",
+    "leapjs": "^0.6.4"
+  },
+  "scripts": {
+    "test": "mocha --compilers js:babel-core/register",
+    "build": "babel src -d lib",
+    "lint": "eslint src/*.js"
+  }
+}
