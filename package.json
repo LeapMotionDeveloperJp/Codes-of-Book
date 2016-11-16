@@ -26,6 +26,7 @@
     "babel-loader": "^6.2.7",
     "babel-register": "^6.18.0",
     "chai": "^3.5.0",
+    "esdoc": "^0.4.8",
     "eslint": "^3.10.1",
     "mocha": "^3.1.2"
   },
@@ -39,6 +40,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register $(find test -name '*.es6')",
     "build": "babel src -d lib",
-    "lint": "eslint src/*.es6"
+    "lint": "eslint src/*.es6",
+    "document": "esdoc -c esdoc.json"
   }
 }

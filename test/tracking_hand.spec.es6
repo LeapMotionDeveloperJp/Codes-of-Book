@@ -5,6 +5,7 @@ let chai = require("chai"),
   TrackingHand = require(path.join(__dirname, "../src", "tracking_hand"));
 var expect = chai.expect;
 
+/** @test {TrackingHand} */
 describe("Tracking Hand", () => {
   describe("#Start", () => {
     var trackingHand;
@@ -12,6 +13,7 @@ describe("Tracking Hand", () => {
       trackingHand = new TrackingHand();
     });
 
+    /** @test {TrackingHand#isStart} */
     it("return status", () => {
       expect(trackingHand.isStart).to.equal(false);
     });
