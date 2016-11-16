@@ -22,7 +22,7 @@ class TrackingHand {
    * @returns {void}
    */
   start(device) {
-    this.isStart = true;
+    this.isStart = !this.isStart;
     device.on("hand", function(hand) {
       console.log(hand);
     });
