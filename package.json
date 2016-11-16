@@ -4,7 +4,7 @@
   "description": "",
   "homepage": "https://www.facebook.com/groups/leapmotionJp/",
   "bugs": "https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes/issues",
-  "main": "index.js",
+  "main": "ch0.js",
   "author": "LeapMotion Developers Jp",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "leapjs": "^0.6.4"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register",
+    "test": "mocha --compilers js:babel-core/register $(find test -name '*.es6')",
     "build": "babel src -d lib",
     "lint": "eslint src/*.es6"
   }

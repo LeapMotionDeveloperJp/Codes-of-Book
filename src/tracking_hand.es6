@@ -3,6 +3,7 @@
 class TrackingHand {
   constructor(device) {
     this.device = device;
+    this.isStart = false;
   }
 
   start() {
