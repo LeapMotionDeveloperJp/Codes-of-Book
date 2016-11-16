@@ -19,6 +19,7 @@ class TrackingHand {
    * @returns {void}
    */
   start() {
+    this.isStart = true;
     this.device.leapmotion.on("hand", function(hand) {
       console.log(hand);
     });
