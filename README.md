@@ -9,11 +9,11 @@
 * [Generate document](https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes#generate-document)
 
 ### Tutorials
-1. `` git clone https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes.git ``
+1. `` git clone https://github.com/LeapMotionDeveloperJp/Codes-of-Book.git ``
 1. `` cd LeapMotionBookCodes ``
 1. `` npm install ``
 1. `` npm run build ``
-1. `` node ch*.js ``
+1. `` node index.js ``
 
 ### Tested Applications
 * `` npm run lint ``
