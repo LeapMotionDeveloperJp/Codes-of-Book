@@ -23,3 +23,7 @@
 * `` npm run document ``
 
 ## Special Thanks
+
+
+Have questions? Found a breaking bug or urgent issue? [Tweet](https://twitter.com/LMDJBot) at our -- We are always happy to respond.
+
