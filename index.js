@@ -1,16 +1,15 @@
 "use strict";
 
 /**
- * @fileoverview Leap本用のCylonJsのヒナ型
+ * @fileoverview サンプルファイルの実行インターフェース
  * @copyright LeapMotion Developers Jp
- * @author
+ * @author K90j1
  * @license MIT
  * @version 1.0.0
  */
 
 var chalk = require("chalk");
 var clear = require("clear");
-var CLI = require("clui");
 var figlet = require("figlet");
 var inquirer = require("inquirer");
 var Cylon = require("cylon");
@@ -22,27 +21,23 @@ console.log(
     figlet.textSync("LeapMotion Developers Jp", {horizontalLayout: "default"})
   )
 );
-
 inquirer.prompt([
   {
     type: "list",
-    name: "size",
-    message: "Which chapter no do you run",
-    choices: ["ch0", "ch1", "ch2"],
-    filter: function (val) {
-      return val.toLowerCase();
-    }
+    name: "number",
+    message: "Which chapter do you run",
+    choices: ["ch0", "ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"]
   }
 ], function(answers) {
   console.log(JSON.stringify(answers, null, "  "));
-}).then(function(response){
-  console.log(response.size);
-  switch (response.size) {
-    case "ch2":
-      break;
-    default:
-      runCylon();
-      break;
+}).then(function(response) {
+  switch (response.number) {
+  case "ch2":
+    console.log(response.number);
+    break;
+  default:
+    runCylon();
+    break;
   }
 });
 
