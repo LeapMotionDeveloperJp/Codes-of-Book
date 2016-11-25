@@ -1,14 +1,14 @@
 {
-  "name": "leap_motion_book_codes",
+  "name": "leap_motion_codes_book",
   "version": "0.0.1",
   "description": "",
   "homepage": "https://www.facebook.com/groups/leapmotionJp/",
-  "bugs": "https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes/issues",
+  "bugs": "https://github.com/LeapMotionDeveloperJp/Codes-of-Book/issues",
   "main": "ch0.js",
   "author": "LeapMotion Developers Jp",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes"
+    "url": "https://github.com/LeapMotionDeveloperJp/Codes-of-Book"
   },
   "license": "MIT",
   "keywords": [
@@ -23,8 +23,9 @@
   ],
   "devDependencies": {
     "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
     "babel-register": "^6.18.0",
+    "babel-runtime": "^6.18.0",
     "chai": "^3.5.0",
     "esdoc": "^0.4.8",
     "eslint": "^3.10.1",
@@ -33,7 +34,6 @@
   },
   "dependencies": {
     "babel-cli": "^6.18.0",
-    "babel-preset-es2015": "^6.18.0",
     "chalk": "^1.1.3",
     "clear": "0.0.1",
     "clui": "^0.3.1",
@@ -44,9 +44,9 @@
     "leapjs": "^0.6.4"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register $(find test -name '*.es6')",
+    "test": "mocha --compilers js:babel-core/register $(find test -name '*.es*')",
     "build": "babel src -d lib",
-    "lint": "eslint src/*.es6",
+    "lint": "eslint src/*.es*",
     "document": "esdoc -c esdoc.json"
   }
 }

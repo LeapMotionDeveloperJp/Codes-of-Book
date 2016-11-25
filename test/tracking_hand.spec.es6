@@ -3,7 +3,7 @@
 let chai = require("chai"),
   path = require("path"),
   sinon = require("sinon"),
-  TrackingHand = require(path.join(__dirname, "../src", "tracking_hand"));
+  TrackingHand = require(path.join(__dirname, "../src", "tracking_hand.es7"));
 var expect = chai.expect;
 
 /** @test {TrackingHand} */

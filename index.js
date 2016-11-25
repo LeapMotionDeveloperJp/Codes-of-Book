@@ -1,7 +1,7 @@
 "use strict";
 
 /**
- * @fileoverview サンプルファイルの実行インターフェース
+ * @fileoverview CUI for Run a Samples
  * @copyright LeapMotion Developers Jp
  * @author K90j1
  * @license MIT
@@ -26,7 +26,8 @@ inquirer.prompt([
     type: "list",
     name: "number",
     message: "Which chapter do you run",
-    choices: ["ch0", "ch1", "ch2", "ch3", "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"]
+    choices: ["ch0", "ch1", "ch2", "ch3",
+      "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"]
   }
 ], function(answers) {
   console.log(JSON.stringify(answers, null, "  "));
