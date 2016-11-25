@@ -25,8 +25,8 @@ describe("Tracking Hand", () => {
     /** @test {TrackingHand#start()} */
     it("can be changed", () => {
       var spy = sinon.spy(trackingHand, "start");
-      trackingHand.start(device.leapmotion);
-      expect(spy.withArgs(device.leapmotion).calledOnce).to.equal(true);
+      trackingHand.start(device);
+      expect(spy.withArgs(device).calledOnce).to.equal(true);
       expect(trackingHand.isStart).to.equal(true);
     });
   });
