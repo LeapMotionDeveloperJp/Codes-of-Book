@@ -6,6 +6,7 @@
  * @author K90j1
  * @license MIT
  * @version 1.0.0
+ * @see https://cylonjs.com/documentation/drivers/leapmotion/
  */
 
 class TrackingHand {
@@ -23,7 +24,7 @@ class TrackingHand {
    */
   start(device) {
     this.isStart = !this.isStart;
-    device.on("hand", function(hand) {
+    device.leapmotion.on("hand", function(hand) {
       console.log(hand);
     });
   }

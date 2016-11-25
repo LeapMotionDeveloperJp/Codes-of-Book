@@ -23,9 +23,11 @@ class ControllingServo {
    */
   start(device) {
     this.isStart = !this.isStart;
-    device.on("frame", function(frame) {
-      console.log(frame);
-      exit(0);
+    device.leapmotion.on("frame", function(frame) {
+      if(frame.hands.length > 0){
+        console.log(frame);
+        process.exit();
+      }
     });
   }
 }

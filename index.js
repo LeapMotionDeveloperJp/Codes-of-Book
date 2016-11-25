@@ -14,6 +14,7 @@ var figlet = require("figlet");
 var inquirer = require("inquirer");
 var Cylon = require("cylon");
 var TrackingHand = require("./lib/tracking_hand");
+var ControllingServo = require("./lib/controlling_servo");
 
 clear();
 console.log(
@@ -50,8 +51,9 @@ function runCylon() {
     devices: {
       leapmotion: {driver: "leapmotion"}
     },
-    work: function work(my) {
-      new TrackingHand(my).start();
+    work: function(my) {
+      // new TrackingHand().start(my);
+      new ControllingServo().start(my);
     }
   }).start();
 }

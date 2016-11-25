@@ -1,3 +1,12 @@
+```
+  _                     __  __       _   _               ____                 _                                 _       
+ | |    ___  __ _ _ __ |  \/  | ___ | |_(_) ___  _ __   |  _ \  _____   _____| | ___  _ __   ___ _ __ ___      | |_ __  
+ | |   / _ \/ _` | '_ \| |\/| |/ _ \| __| |/ _ \| '_ \  | | | |/ _ \ \ / / _ \ |/ _ \| '_ \ / _ \ '__/ __|  _  | | '_ \ 
+ | |__|  __/ (_| | |_) | |  | | (_) | |_| | (_) | | | | | |_| |  __/\ V /  __/ | (_) | |_) |  __/ |  \__ \ | |_| | |_) |
+ |_____\___|\__,_| .__/|_|  |_|\___/ \__|_|\___/|_| |_| |____/ \___| \_/ \___|_|\___/| .__/ \___|_|  |___/  \___/| .__/ 
+                 |_|                                                                 |_|                         |_|    
+```
+
 # Codes of Book
 [![CircleCI](https://circleci.com/gh/LeapMotionDeveloperJp/LeapMotionBookCodes.svg?style=svg)](https://circleci.com/gh/LeapMotionDeveloperJp/LeapMotionBookCodes)
 [![Code Climate](https://codeclimate.com/github/LeapMotionDeveloperJp/LeapMotionBookCodes/badges/gpa.svg)](https://codeclimate.com/github/LeapMotionDeveloperJp/LeapMotionBookCodes)
