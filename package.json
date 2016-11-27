@@ -44,9 +44,9 @@
     "leapjs": "^0.6.4"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register $(find test -name '*.es*')",
+    "test": "mocha --compilers js:babel-core/register $(find test -name '*.es')",
     "build": "babel src -d lib",
-    "lint": "eslint src/*.es*",
+    "lint": "eslint src/*.es",
     "document": "esdoc -c esdoc.json"
   }
 }

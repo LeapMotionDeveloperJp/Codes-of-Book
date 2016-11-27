@@ -38,22 +38,24 @@ inquirer.prompt([
     console.log(response.number);
     break;
   default:
-    runCylon();
+    runCylon(TrackingHand);
     break;
   }
 });
 
-function runCylon() {
-  Cylon.robot({
-    connections: {
-      leapmotion: {adaptor: "leapmotion"}
-    },
-    devices: {
-      leapmotion: {driver: "leapmotion"}
-    },
-    work: function(my) {
-      // new TrackingHand().start(my);
-      new ControllingServo().start(my);
-    }
-  }).start();
+var TrackingHand = {
+  connections: {
+    leapmotion: {adaptor: "leapmotion"}
+  },
+  devices: {
+    leapmotion: {driver: "leapmotion"}
+  },
+  work: function(my) {
+    // new TrackingHand().start(my);
+    new ControllingServo().start(my);
+  }
+};
+
+function runCylon(structure) {
+  Cylon.robot(structure).start();
 }

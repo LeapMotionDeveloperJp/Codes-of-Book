@@ -24,7 +24,7 @@ class ControllingServo {
   start(device) {
     this.isStart = !this.isStart;
     device.leapmotion.on("frame", function(frame) {
-      if(frame.hands.length > 0){
+      if(frame.hands.length > 0) {
         console.log(frame);
         process.exit();
       }
