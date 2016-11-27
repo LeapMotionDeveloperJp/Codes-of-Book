@@ -31,8 +31,15 @@
 ### Generate document
 * `` npm run document ``
 
+## Contributing
+1. Fork it ( https://github.com/LeapMotionDeveloperJp/LeapMotionBookCodes )
+1. Create your feature branch (git checkout -b my-new-feature)
+1. Commit your changes (git commit -am 'Add some feature')
+1. Push to the branch (git push origin my-new-feature)
+1. Create a new Pull Request
+
 ## Special Thanks
 
-
-Have questions? Found a breaking bug or urgent issue? [Tweet](https://twitter.com/LMDJBot) at our -- We are always happy to respond.
+## Have questions? 
+Found a breaking bug or urgent issue? [Tweet](https://twitter.com/LMDJBot) at our -- We are always happy to respond.
 
