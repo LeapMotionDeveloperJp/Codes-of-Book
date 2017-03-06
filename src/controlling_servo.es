@@ -3,7 +3,7 @@
 /**
  * @fileoverview Controlling Servo motor by Leap Motion
  * @copyright LeapMotion Developers Jp
- * @author K90j1
+ * @author smapira
  * @license MIT
  * @version 1.0.0
  */

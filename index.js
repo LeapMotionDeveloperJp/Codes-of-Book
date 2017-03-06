@@ -3,7 +3,7 @@
 /**
  * @fileoverview CUI for Run a Samples
  * @copyright LeapMotion Developers Jp
- * @author K90j1
+ * @author smapira
  * @license MIT
  * @version 1.0.0
  */
@@ -14,7 +14,10 @@ var figlet = require("figlet");
 var inquirer = require("inquirer");
 var Cylon = require("cylon");
 var TrackingHand = require("./lib/tracking_hand");
+var HandlingRobotArm = require("./lib/handling_robot_arm");
 var ControllingServo = require("./lib/controlling_servo");
+var firmataPort = null;
+const FIRMATA_PORT = "/dev/ttyACM0";
 
 clear();
 console.log(
@@ -22,6 +25,7 @@ console.log(
     figlet.textSync("LeapMotion Developers Jp", {horizontalLayout: "default"})
   )
 );
+
 inquirer.prompt([
   {
     type: "list",
@@ -32,18 +36,35 @@ inquirer.prompt([
   }
 ], function(answers) {
   console.log(JSON.stringify(answers, null, "  "));
+  firmataPort = firmataPort ? firmataPort : FIRMATA_PORT;
 }).then(function(response) {
   switch (response.number) {
+  case "ch0":
+    runCylon(handlingRobotArm);
+    break;
   case "ch2":
     console.log(response.number);
     break;
   default:
-    runCylon(TrackingHand);
+    runCylon(controllingServo);
     break;
   }
 });
 
-var TrackingHand = {
+var controllingServo = {
+  connections: {
+    leapmotion: {adaptor: "leapmotion"}
+  },
+  devices: {
+    leapmotion: {driver: "leapmotion"}
+  },
+  work: function (my) {
+    new ControllingServo().start(my);
+  }
+};
+
+
+var trackingHand = {
   connections: {
     leapmotion: {adaptor: "leapmotion"}
   },
@@ -51,8 +72,24 @@ var TrackingHand = {
     leapmotion: {driver: "leapmotion"}
   },
   work: function(my) {
-    // new TrackingHand().start(my);
-    new ControllingServo().start(my);
+    new TrackingHand().start(my);
+  }
+};
+
+var handlingRobotArm = {
+  connections: {
+    leapmotion: {adaptor: "leapmotion"},
+    arduino: {adaptor: "firmata", port: firmataPort}
+  },
+  devices: {
+    leapmotion: {driver: "leapmotion"},
+    servo0: {driver: "servo", pin: 0},
+    servo1: {driver: "servo", pin: 1},
+    servo2: {driver: "servo", pin: 2},
+    servo3: {driver: "servo", pin: 3}
+  },
+  work: function(my) {
+    new HandlingRobotArm().start(my);
   }
 };
 
