@@ -38,19 +38,19 @@ class HandlingRobotArm {
       let position = hand.palmPosition;
       let velocity = hand.palmVelocity;
       let direction = hand.direction;
-      let average = TrackingHand.avgHandPosition(hand, 30);
+      let average = HandlingRobotArm.avgHandPosition(hand, 30);
       console.table(average);
 
-      if (currentX == 0) {
-        this.workServo1(device, 10);
+      if (this.currentX == 0) {
+        this.workServo1(10);
       }
     });
   }
 
   /**
    * start()
-   * @param {Object} [hand] object containing device information for the Robot
-   * @param {Object} [historySamples] object containing device information for the Robot
+   * @param {Object} [hand] object
+   * @param {Object} [historySamples] object
    * @returns {void}
    */
   static avgHandPosition(hand, historySamples) {
