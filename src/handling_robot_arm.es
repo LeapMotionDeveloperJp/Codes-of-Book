@@ -1,4 +1,6 @@
 "use strict";
+require("../node_modules/leapjs/template/entry");
+require("console.table");
 
 /**
  * @fileoverview Tracking Hand by Leap Motion for Robot arm
@@ -8,6 +10,10 @@
  * @version 1.0.0
  * @see https://cylonjs.com/documentation/drivers/leapmotion/
  */
+
+const NORMALIZE_PITCH = 60;
+const OPEN_SCISSORS = 0;
+const CLOSE_SCISSORS = 300;
 
 class HandlingRobotArm {
 
@@ -19,6 +25,7 @@ class HandlingRobotArm {
     this.currentX = 0;
     this.currentY = 0;
     this.currentZ = 0;
+    this.isGrab = false;
     this.device = null;
   }
 
@@ -30,110 +37,130 @@ class HandlingRobotArm {
   start(device) {
     this.isStart = !this.isStart;
     this.device = device;
-    device.leapmotion.on("frame", function(frame) {
-      if (frame.hands.length < 1) {
-        return;
-      }
-      let hand = frame.hands[0];
-      let position = hand.palmPosition;
-      let velocity = hand.palmVelocity;
-      let direction = hand.direction;
-      let average = HandlingRobotArm.avgHandPosition(hand, 30);
-      console.table(average);
-
-      if (this.currentX == 0) {
-        this.workServo1(10);
+    this.workingServo3();
+    this.workingServo4();
+    this.workingServo5();
+    this.workingServo6();
+    this.workingServo7();
+    this.workingServo8(false);
+    device.leapmotion.on("frame", function (frame) {
+      if (frame.hands.length > 0) {
+        let hand = frame.hands[0];
+        let average = HandlingRobotArm
+          .avgHandPosition(new Leap.Controller(), hand, 30);
+        console.table(average);
+        this.workingServo3(average[0]);
+        this.workingServo6(average[1]);
+        this.workingServo8(hand.fingers.length > 0);
       }
     });
   }
 
   /**
-   * start()
-   * @param {Object} [hand] object
-   * @param {Object} [historySamples] object
+   * workingServo3() Rotate
+   * @param {Number} [value] hand x axis position
    * @returns {void}
    */
-  static avgHandPosition(hand, historySamples) {
+  workingServo3(value) {
+    if (HandlingRobotArm.normalizeRotate(this.currentX)
+      != HandlingRobotArm.normalizeRotate(value)) {
+      this.currentX = value;
+      this.device.servo3.angle(angle);
+    }
+  }
+
+  /**
+   * workingServo4()
+   * @returns {void}
+   */
+  workingServo4() {
+    this.device.servo4.angle(80);
+  }
+
+  /**
+   * workingServo5() Depth
+   * @returns {void}
+   */
+  workingServo5() {
+    this.device.servo5.angle(40);
+  }
+
+  /**
+   * workingServo6() Height
+   * @param {Number} [value] hand y axis position
+   * @returns {void}
+   */
+  workingServo6(value) {
+    if (HandlingRobotArm.normalizeHeight(this.currentY)
+      != HandlingRobotArm.normalizeHeight(value)) {
+      this.currentY = value;
+      this.device.servo6.angle(angle);
+    }
+  }
+
+  /**
+   * workingServo7()
+   * @returns {void}
+   */
+  workingServo7() {
+    this.device.servo7.angle(290);
+  }
+
+  /**
+   * workingServo8()
+   * @param {Boolean} [value] is Grab ?
+   * @returns {void}
+   */
+  workingServo8(value) {
+    if (this.isGrab != value) {
+      this.isGrab = value;
+      if (this.isGrab) {
+        this.device.servo8.angle(OPEN_SCISSORS);
+      } else {
+        this.device.servo8.angle(CLOSE_SCISSORS);
+      }
+    }
+  }
+
+  /**
+   * normalizeRotate()
+   * @param {Number} [rotate] Left -300 Right 300
+   * @returns {Number} 10 steps for servo2.write(300)
+   */
+  static normalizeRotate(rotate) {
+    let scale = 30;
+    return rotate / NORMALIZE_PITCH * scale;
+  }
+
+  /**
+   * normalizeHeight()
+   * @param {Number} [angle] Height 0 600
+   * @returns {Number} 10 steps servo5.write(120);
+   */
+  static normalizeHeight(angle) {
+    let scale = 12;
+    return angle / NORMALIZE_PITCH * scale;
+  }
+
+  /**
+   * avgHandPosition()
+   * @param {Object} [controller] object
+   * @param {Object} [hand] object
+   * @param {Object} [historySamples] object
+   * @returns {Object} 0: Width 1: Height 2:  Depth 300 -120
+   */
+  static avgHandPosition(controller, hand, historySamples) {
     let sum = Leap.vec3.create();
     Leap.vec3.copy(sum, hand.palmPosition);
-    for (let s = 1; s < historySamples; s++) {
-      let oldHand = controller.frame(s).hand(hand.id);
+    let sequence;
+    for (sequence = 1; sequence < historySamples; sequence++) {
+      let oldHand = controller.frame(sequence).hand(hand.id);
       if (!oldHand.valid) break;
       Leap.vec3.add(sum, oldHand.palmPosition, sum);
     }
-    Leap.vec3.scale(sum, sum, 1 / s);
+    Leap.vec3.scale(sum, sum, 1 / sequence);
     return sum;
   }
-
-  /**
-   * workServo1()
-   * @param {Object} [value] object containing device information for the Robot
-   * @returns {void}
-   */
-  workServo1(value) {
-    let angle = 45;
-    this.device.servo.angle(angle);
-    // every((1).second(), function () {
-    //   angle = angle + 45;
-    //   if (angle > 135) {
-    //     angle = 45
-    //   }
-    //   device.servo.angle(angle);
-    // });
-  }
-
-  /**
-   * workServo2()
-   * @param {Object} [value] object containing device information for the Robot
-   * @returns {void}
-   */
-  workServo2(value) {
-    let angle = 45;
-    this.device.servo.angle(angle);
-    // every((1).second(), function () {
-    //   angle = angle + 45;
-    //   if (angle > 135) {
-    //     angle = 45
-    //   }
-    //   device.servo.angle(angle);
-    // });
-  }
-
-  /**
-   * workServo3()
-   * @param {Object} [value] object containing device information for the Robot
-   * @returns {void}
-   */
-  workServo3(value) {
-    let angle = 45;
-    this.device.servo.angle(angle);
-    // every((1).second(), function () {
-    //   angle = angle + 45;
-    //   if (angle > 135) {
-    //     angle = 45
-    //   }
-    //   device.servo.angle(angle);
-    // });
-  }
-
-  /**
-   * workServo4()
-   * @param {Object} [value] object containing device information for the Robot
-   * @returns {void}
-   */
-  workServo4(value) {
-    let angle = 45;
-    this.device.servo.angle(angle);
-    // every((1).second(), function () {
-    //   angle = angle + 45;
-    //   if (angle > 135) {
-    //     angle = 45
-    //   }
-    //   device.servo.angle(angle);
-    // });
-  }
-
-
 }
 
 module.exports = HandlingRobotArm;
