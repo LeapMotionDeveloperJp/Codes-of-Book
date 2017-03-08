@@ -62,10 +62,10 @@ class HandlingRobotArm {
    * @returns {void}
    */
   workingServo3(value) {
-    if (HandlingRobotArm.normalizeRotate(this.currentX)
-      != HandlingRobotArm.normalizeRotate(value)) {
-      this.currentX = value;
-      this.device.servo3.angle(angle);
+    let angle = HandlingRobotArm.normalizeRotate(value);
+    if (this.currentX != angle) {
+      this.currentX = angle;
+      this.device.servo3.angle(this.currentX);
     }
   }
 
@@ -91,10 +91,10 @@ class HandlingRobotArm {
    * @returns {void}
    */
   workingServo6(value) {
-    if (HandlingRobotArm.normalizeHeight(this.currentY)
-      != HandlingRobotArm.normalizeHeight(value)) {
-      this.currentY = value;
-      this.device.servo6.angle(angle);
+    let angle = HandlingRobotArm.normalizeHeight(value);
+    if (this.currentY != angle) {
+      this.currentY = angle;
+      this.device.servo6.angle(this.currentY);
     }
   }
 

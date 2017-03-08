@@ -20,16 +20,16 @@
 ### Tutorials
 1. `` git clone https://github.com/LeapMotionDeveloperJp/Codes-of-Book.git ``
 1. `` cd LeapMotionBookCodes ``
-1. `` npm install ``
-1. `` npm run build ``
-1. `` node index.js ``
+1. `` yarn (or npm) install ``
+1. `` yarn (or npm) run build ``
+1. `` yarn (or npm) start ``
 
 ### Tested Applications
-* `` npm run lint ``
-* `` npm run test ``
+* `` yarn (or npm) run lint ``
+* `` yarn (or npm) run test ``
 
 ### Generate document
-* `` npm run document ``
+* `` yarn (or npm) run document ``
 
 ## Contributing
 1. Fork it (https://github.com/LeapMotionDeveloperJp/Codes-of-Book)

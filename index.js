@@ -31,7 +31,7 @@ inquirer.prompt([
   {
     type: "list",
     name: "number",
-    message: "Which chapter do you run",
+    message: "Which chapter do you run ?",
     choices: ["ch0", "ch1", "ch2", "ch3",
       "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"]
   }
@@ -81,7 +81,6 @@ var handlingRobotArm = {
     leap: {adaptor: "leapmotion"},
     arduino: {adaptor: "firmata", port: FIRMATA_PORT}
   },
-
   devices: {
     servo2: {driver: "servo", pin: 2},
     servo3: {driver: "servo", pin: 3},
@@ -92,7 +91,6 @@ var handlingRobotArm = {
     servo8: {driver: "servo", pin: 8},
     leapmotion: {driver: "leapmotion", connection: "leap"}
   },
-
   work: function (my) {
     new HandlingRobotArm().start(my);
   }
