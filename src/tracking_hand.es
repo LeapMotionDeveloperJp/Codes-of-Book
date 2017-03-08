@@ -22,7 +22,7 @@ class TrackingHand {
    * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  start(device) {
+  configure(device) {
     this.isStart = !this.isStart;
     device.leapmotion.on("hand", function(hand) {
       console.log(hand);

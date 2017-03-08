@@ -30,7 +30,7 @@ class HandlingRobotArm {
    * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  start(device) {
+  configure(device) {
     this.isStart = !this.isStart;
     HandlingRobotArm.workingServo2(device);
     HandlingRobotArm.workingServo3(device);
@@ -38,7 +38,6 @@ class HandlingRobotArm {
     HandlingRobotArm.workingServo5(device);
     HandlingRobotArm.workingServo6(device);
     HandlingRobotArm.workingServo7(device);
-    this.workingServo8(device, false);
     device.leapmotion.on("frame", function(frame) {
       if (frame.hands.length < 1) {
         return;
@@ -134,23 +133,6 @@ class HandlingRobotArm {
    */
   static workingServo7(device) {
     device.servo7.angle(CLOSE_SCISSORS);
-  }
-
-  /**
-   * workingServo8()
-   * @param {Object} [device] object containing device information for the Robot
-   * @param {Boolean} [value] is Grab ?
-   * @returns {void}
-   */
-  workingServo8(device, value) {
-    if (this.isGrab != value) {
-      this.isGrab = value;
-      if (this.isGrab) {
-        device.servo8.angle(OPEN_SCISSORS);
-      } else {
-        device.servo8.angle(CLOSE_SCISSORS);
-      }
-    }
   }
 
   /**

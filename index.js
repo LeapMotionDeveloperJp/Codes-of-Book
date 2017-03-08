@@ -15,7 +15,6 @@ var inquirer = require("inquirer");
 var Cylon = require("cylon");
 var TrackingHand = require("./lib/tracking_hand");
 var HandlingRobotArm = require("./lib/handling_robot_arm");
-var ControllingServo = require("./lib/controlling_servo");
 //const FIRMATA_PORT = "/dev/ttyACM0";
 const FIRMATA_PORT = "COM4";
 
@@ -45,23 +44,10 @@ inquirer.prompt([
     console.log(response.number);
     break;
   default:
-    runCylon(controllingServo);
+    runCylon(trackingHand);
     break;
   }
 });
-
-var controllingServo = {
-  connections: {
-    leapmotion: {adaptor: "leapmotion"}
-  },
-  devices: {
-    leapmotion: {driver: "leapmotion"}
-  },
-  work: function(my) {
-    new ControllingServo().start(my);
-  }
-};
-
 
 var trackingHand = {
   connections: {
@@ -71,7 +57,7 @@ var trackingHand = {
     leapmotion: {driver: "leapmotion"}
   },
   work: function(my) {
-    new TrackingHand().start(my);
+    new TrackingHand().configure(my);
   }
 };
 
@@ -90,7 +76,7 @@ var handlingRobotArm = {
     leapmotion: {driver: "leapmotion", connection: "leap"}
   },
   work: function(my) {
-    new HandlingRobotArm().start(my);
+    new HandlingRobotArm().configure(my);
   }
 };
 
