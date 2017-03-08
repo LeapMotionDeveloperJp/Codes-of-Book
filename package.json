@@ -50,8 +50,9 @@
   },
   "scripts": {
     "test": "mocha --compilers js:babel-core/register $(find test -name '*.es')",
-    "build": "babel src -d lib",
+    "build": "babel src -d lib -w",
     "lint": "eslint src/*.es",
+    "start": "npm run build | node index.js",
     "document": "esdoc -c esdoc.json"
   }
 }

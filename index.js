@@ -16,7 +16,6 @@ var Cylon = require("cylon");
 var TrackingHand = require("./lib/tracking_hand");
 var HandlingRobotArm = require("./lib/handling_robot_arm");
 var ControllingServo = require("./lib/controlling_servo");
-var firmataPort = null;
 //const FIRMATA_PORT = "/dev/ttyACM0";
 const FIRMATA_PORT = "COM4";
 
@@ -35,9 +34,9 @@ inquirer.prompt([
     choices: ["ch0", "ch1", "ch2", "ch3",
       "ch4", "ch5", "ch6", "ch7", "ch8", "ch9"]
   }
-], function (answers) {
+], function(answers) {
   console.log(JSON.stringify(answers, null, "  "));
-}).then(function (response) {
+}).then(function(response) {
   switch (response.number) {
   case "ch0":
     runCylon(handlingRobotArm);
@@ -58,7 +57,7 @@ var controllingServo = {
   devices: {
     leapmotion: {driver: "leapmotion"}
   },
-  work: function (my) {
+  work: function(my) {
     new ControllingServo().start(my);
   }
 };
@@ -71,15 +70,15 @@ var trackingHand = {
   devices: {
     leapmotion: {driver: "leapmotion"}
   },
-  work: function (my) {
+  work: function(my) {
     new TrackingHand().start(my);
   }
 };
 
 var handlingRobotArm = {
   connections: {
-    leap: {adaptor: "leapmotion"},
-    arduino: {adaptor: "firmata", port: FIRMATA_PORT}
+    adaptor: {adaptor: 'firmata', port: FIRMATA_PORT},
+    leap: {adaptor: "leapmotion"}
   },
   devices: {
     servo2: {driver: "servo", pin: 2},
@@ -88,10 +87,9 @@ var handlingRobotArm = {
     servo5: {driver: "servo", pin: 5},
     servo6: {driver: "servo", pin: 6},
     servo7: {driver: "servo", pin: 7},
-    servo8: {driver: "servo", pin: 8},
     leapmotion: {driver: "leapmotion", connection: "leap"}
   },
-  work: function (my) {
+  work: function(my) {
     new HandlingRobotArm().start(my);
   }
 };

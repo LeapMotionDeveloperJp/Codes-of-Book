@@ -12,8 +12,8 @@ require("console.table");
  */
 
 const NORMALIZE_PITCH = 60;
-const OPEN_SCISSORS = 0;
-const CLOSE_SCISSORS = 300;
+const OPEN_SCISSORS = 180;
+const CLOSE_SCISSORS = -300;
 
 class HandlingRobotArm {
 
@@ -22,11 +22,7 @@ class HandlingRobotArm {
    */
   constructor() {
     this.isStart = false;
-    this.currentX = 0;
-    this.currentY = 0;
-    this.currentZ = 0;
     this.isGrab = false;
-    this.device = null;
   }
 
   /**
@@ -36,111 +32,157 @@ class HandlingRobotArm {
    */
   start(device) {
     this.isStart = !this.isStart;
-    this.device = device;
-    this.workingServo3();
-    this.workingServo4();
-    this.workingServo5();
-    this.workingServo6();
-    this.workingServo7();
-    this.workingServo8(false);
-    device.leapmotion.on("frame", function (frame) {
-      if (frame.hands.length > 0) {
-        let hand = frame.hands[0];
-        let average = HandlingRobotArm
-          .avgHandPosition(new Leap.Controller(), hand, 30);
-        console.table(average);
-        this.workingServo3(average[0]);
-        this.workingServo6(average[1]);
-        this.workingServo8(hand.fingers.length > 0);
+    HandlingRobotArm.workingServo2(device);
+    HandlingRobotArm.workingServo3(device);
+    HandlingRobotArm.workingServo4(device);
+    HandlingRobotArm.workingServo5(device);
+    HandlingRobotArm.workingServo6(device);
+    HandlingRobotArm.workingServo7(device);
+    this.workingServo8(device, false);
+    device.leapmotion.on("frame", function(frame) {
+      if (frame.hands.length < 1) {
+        return;
+      }
+      let hand = frame.hands[0];
+      let average = HandlingRobotArm
+        .avgHandPosition(new Leap.Controller(), hand, 30);
+      let rotate = HandlingRobotArm.normalizeRotate(average[0]);
+      let height = HandlingRobotArm.normalizeHeight(average[1]);
+      let depth = HandlingRobotArm.normalizeDepth(average[2]);
+
+      if (device.servo2.currentAngle() == rotate
+        && device.servo4.currentAngle() == height
+        && device.servo5.currentAngle() == depth) {
+        return;
+      }
+      console.table(average);
+      console.log("Rotate Angle: " + rotate);
+      console.log("Depth Angle: " + depth);
+      console.log("Height Angle: " + height);
+      console.log("Grab: " + (hand.grabStrength == 1));
+
+      if (device.servo2.currentAngle() != rotate) {
+        device.servo2.angle(rotate);
+      }
+      if (device.servo4.currentAngle() != depth) {
+        device.servo4.angle(depth);
+      }
+      if (device.servo5.currentAngle() != height) {
+        device.servo5.angle(height);
+      }
+      if (this.isGrab == (hand.grabStrength == 1)) {
+        return;
+      }
+      this.isGrab = !this.isGrab;
+      if (this.isGrab) {
+        device.servo7.angle(OPEN_SCISSORS);
+      } else {
+        device.servo7.angle(CLOSE_SCISSORS);
       }
     });
   }
 
   /**
-   * workingServo3() Rotate
-   * @param {Number} [value] hand x axis position
+   * workingServo2() Rotate
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  workingServo3(value) {
-    let angle = HandlingRobotArm.normalizeRotate(value);
-    if (this.currentX != angle) {
-      this.currentX = angle;
-      this.device.servo3.angle(this.currentX);
-    }
+  static workingServo2(device) {
+    device.servo2.angle(150);
+  }
+
+  /**
+   * workingServo3()
+   * @param {Object} [device] object containing device information for the Robot
+   * @returns {void}
+   */
+  static workingServo3(device) {
+    device.servo3.angle(60);
   }
 
   /**
    * workingServo4()
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  workingServo4() {
-    this.device.servo4.angle(80);
+  static workingServo4(device) {
+    device.servo4.angle(40);
   }
 
   /**
    * workingServo5() Depth
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  workingServo5() {
-    this.device.servo5.angle(40);
+  static workingServo5(device) {
+    device.servo5.angle(90);
   }
 
   /**
    * workingServo6() Height
-   * @param {Number} [value] hand y axis position
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  workingServo6(value) {
-    let angle = HandlingRobotArm.normalizeHeight(value);
-    if (this.currentY != angle) {
-      this.currentY = angle;
-      this.device.servo6.angle(this.currentY);
-    }
+  static workingServo6(device) {
+    device.servo6.angle(290);
   }
 
   /**
    * workingServo7()
+   * @param {Object} [device] object containing device information for the Robot
    * @returns {void}
    */
-  workingServo7() {
-    this.device.servo7.angle(290);
+  static workingServo7(device) {
+    device.servo7.angle(CLOSE_SCISSORS);
   }
 
   /**
    * workingServo8()
+   * @param {Object} [device] object containing device information for the Robot
    * @param {Boolean} [value] is Grab ?
    * @returns {void}
    */
-  workingServo8(value) {
+  workingServo8(device, value) {
     if (this.isGrab != value) {
       this.isGrab = value;
       if (this.isGrab) {
-        this.device.servo8.angle(OPEN_SCISSORS);
+        device.servo8.angle(OPEN_SCISSORS);
       } else {
-        this.device.servo8.angle(CLOSE_SCISSORS);
+        device.servo8.angle(CLOSE_SCISSORS);
       }
     }
   }
 
   /**
    * normalizeRotate()
-   * @param {Number} [rotate] Left -300 Right 300
+   * @param {Number} [angle] Left -300 Right 300
    * @returns {Number} 10 steps for servo2.write(300)
    */
-  static normalizeRotate(rotate) {
+  static normalizeRotate(angle) {
     let scale = 30;
-    return rotate / NORMALIZE_PITCH * scale;
+    return Math.round((angle + 300) / NORMALIZE_PITCH) * scale;
   }
 
   /**
    * normalizeHeight()
    * @param {Number} [angle] Height 0 600
-   * @returns {Number} 10 steps servo5.write(120);
+   * @returns {Number} 10 steps servo4.write(80);
    */
   static normalizeHeight(angle) {
-    let scale = 12;
-    return angle / NORMALIZE_PITCH * scale;
+    let scale = 8;
+    return Math.round(angle / NORMALIZE_PITCH) * scale;
   }
+
+  /**
+   * normalizeDepth()
+   * @param {Number} [angle]  Depth -120 300
+   * @returns {Number} 10 steps servo5.write(120);
+   */
+  static normalizeDepth(angle) {
+    let scale = 12;
+    return 90 - (Math.round((angle + 120) / NORMALIZE_PITCH) * scale);
+  }
+
 
   /**
    * avgHandPosition()
